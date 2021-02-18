@@ -1,5 +1,7 @@
 <?php
 
+use Encore\Admin\Table\Displayers\DropdownActions;
+
 return [
 
     /*
@@ -156,7 +158,7 @@ return [
     'upload' => [
 
         // Disk in `config/filesystem.php`.
-        'disk' => 'admin',
+        'disk' => 'minio',
 
         // Image and file upload path under the disk above.
         'directory' => [
@@ -315,7 +317,7 @@ return [
     | Whether to display the environment at the footer of each page
     |
     */
-    'show_environment' => true,
+    'show_environment' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -352,7 +354,7 @@ return [
     | The global Table action display class.
     |--------------------------------------------------------------------------
     */
-    'table_action_class' => \Encore\Admin\Table\Displayers\DropdownActions::class,
+    'table_action_class' => DropdownActions::class,
 
     /*
     |--------------------------------------------------------------------------
