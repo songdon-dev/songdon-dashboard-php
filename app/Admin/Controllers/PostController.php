@@ -2,20 +2,21 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\User;
+use App\Admin\Selectable\Users;
+use App\Models\Post;
 use Encore\Admin\Form;
 use Encore\Admin\Http\Controllers\AdminController;
 use Encore\Admin\Show;
 use Encore\Admin\Table;
 
-class UserController extends AdminController
+class PostController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '用户管理';
+    protected $title = '文章管理';
 
     /**
      * Make a table builder.
@@ -24,17 +25,12 @@ class UserController extends AdminController
      */
     protected function table(): Table
     {
-        $table = new Table(new User());
+        $table = new Table(new Post());
 
         $table->column('id', __('admin.Id'))->sortable();
-        $table->column('name', __('admin.Name'));
-        $table->column('email', __('admin.Email'));
-
-        $table->column('posts', '文章数')->display(function ($posts) {
-            $count = count($posts);
-            return "<span class='label label-warning'>{$count}</span>";
-        });
-
+        $table->column('title', __('admin.Title'));
+        $table->column('content', __('admin.Content'));
+        $table->column('user.name', __('admin.User Name'));
         $table->column('created_at', __('admin.Created at'));
         $table->column('updated_at', __('admin.Updated at'));
 
@@ -49,11 +45,11 @@ class UserController extends AdminController
      */
     protected function detail(mixed $id): Show
     {
-        $show = new Show(User::findOrFail($id));
+        $show = new Show(Post::findOrFail($id));
 
         $show->field('id', __('admin.Id'));
-        $show->field('name', __('admin.Name'));
-        $show->field('email', __('admin.Email'));
+        $show->field('title', __('admin.Title'));
+        $show->field('content', __('admin.Content'));
         $show->field('created_at', __('admin.Created at'));
         $show->field('updated_at', __('admin.Updated at'));
 
@@ -67,11 +63,11 @@ class UserController extends AdminController
      */
     protected function form(): Form
     {
-        $form = new Form(new User());
+        $form = new Form(new Post());
 
-        $form->text('name', __('admin.Name'));
-        $form->email('email', __('admin.Email'));
-        $form->password('password', __('admin.Password'));
+        $form->text('title', __('admin.Title'));
+        $form->text('content', __('admin.Content'));
+        $form->belongsTo('user_id', Users::class, '作者');
 
         return $form;
     }

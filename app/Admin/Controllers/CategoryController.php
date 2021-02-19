@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\User;
+use App\Models\Category;
 use Encore\Admin\Form;
 use Encore\Admin\Http\Controllers\AdminController;
 use Encore\Admin\Show;
 use Encore\Admin\Table;
 
-class UserController extends AdminController
+class CategoryController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '用户管理';
+    protected $title = '分类管理';
 
     /**
      * Make a table builder.
@@ -24,15 +24,15 @@ class UserController extends AdminController
      */
     protected function table(): Table
     {
-        $table = new Table(new User());
+        $table = new Table(new Category());
 
-        $table->column('id', __('admin.Id'))->sortable();
+        $table->column('id', __('admin.Id'));
         $table->column('name', __('admin.Name'));
-        $table->column('email', __('admin.Email'));
+        $table->column('code', __('admin.Code'));
 
-        $table->column('posts', '文章数')->display(function ($posts) {
-            $count = count($posts);
-            return "<span class='label label-warning'>{$count}</span>";
+        $table->column('products', '产品数量')->display(function ($products) {
+            $count = count($products);
+            return "<span>${$count}</span>";
         });
 
         $table->column('created_at', __('admin.Created at'));
@@ -49,11 +49,11 @@ class UserController extends AdminController
      */
     protected function detail(mixed $id): Show
     {
-        $show = new Show(User::findOrFail($id));
+        $show = new Show(Category::findOrFail($id));
 
         $show->field('id', __('admin.Id'));
         $show->field('name', __('admin.Name'));
-        $show->field('email', __('admin.Email'));
+        $show->field('code', __('admin.Code'));
         $show->field('created_at', __('admin.Created at'));
         $show->field('updated_at', __('admin.Updated at'));
 
@@ -67,11 +67,10 @@ class UserController extends AdminController
      */
     protected function form(): Form
     {
-        $form = new Form(new User());
+        $form = new Form(new Category());
 
         $form->text('name', __('admin.Name'));
-        $form->email('email', __('admin.Email'));
-        $form->password('password', __('admin.Password'));
+        $form->text('code', __('admin.Code'));
 
         return $form;
     }

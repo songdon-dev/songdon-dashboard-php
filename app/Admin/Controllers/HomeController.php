@@ -10,24 +10,14 @@ use Encore\Admin\Layout\Row;
 
 class HomeController extends Controller
 {
-    public function index(Content $content)
+    public function index(Content $content): Content
     {
         return $content
-            ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
+            ->title('乡遁')
+            ->description('数据管理后台总览')
             ->row(function (Row $row) {
-
-                $row->column(4, function (Column $column) {
+                $row->column(12, function (Column $column) {
                     $column->append(Dashboard::environment());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
                 });
             });
     }

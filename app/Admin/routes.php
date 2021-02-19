@@ -10,7 +10,8 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
     'as' => config('admin.route.as'),
 ], function (Router $router) {
-
     $router->get('/', 'HomeController@index')->name('home');
     $router->resource('users', 'UserController')->names('users');
+    $router->resource('posts', 'PostController')->names('posts');
+    $router->resource('categories', 'CategoryController')->names('categories');
 });
